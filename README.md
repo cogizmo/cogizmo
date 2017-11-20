@@ -1,13 +1,13 @@
-# Component
+# Cogizmo
 Base convenience SuperClass for vanilla WebComponents.
 
 ## Usage
 
 1. Make a Custom Element class that extends Component
 
-**component.js**
+**Cogizmo.js**
 ```
-class MyComponent extends Component {
+class MyComponent extends Cogizmo {
     // Component implementation details
 }
 ```
@@ -27,9 +27,9 @@ MyComponent.manage();
 ### Installation
 Installation is very simple. Just place the required files in a web accessible directory.
 
-1. Place Component.js in a web accessible directory.
-2. Add `<script src="path/to/Component.js"></script>` to document `<head>`
-    a. If using webcomponents polyfill, Component.js must come after the polyfill.
+1. Place Cogizmo.js in a web accessible directory.
+2. Add `<script src="path/to/Cogizmo.js"></script>` to document `<head>`
+    a. If using webcomponents polyfill, Cogizmo.js must come after the polyfill.
 
 ### For Compatibility
 Some browsers do not have the complete WebComponents spec implemented. As a result, some browsers may require the webcomponents polyfills. Webcomponents polyfill is a smart polyfill that only includes features that are not yet implemented.
