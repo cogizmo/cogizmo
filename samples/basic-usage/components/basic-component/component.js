@@ -1,6 +1,11 @@
 (function defineElement() {
     class BasicComponent extends Cogizmo {
         /**
+         * Currently required for Cogizmo
+         */
+        static get is() { return 'basic-component'; }
+
+        /**
          * Basic constructor template. Typically with no arguments to match
          * other elements
          */
