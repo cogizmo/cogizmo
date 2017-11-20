@@ -3,7 +3,7 @@
  * and workaround for IE11.
  */
 (() => {
-    class Component extends HTMLElement {
+    class Cogizmo extends HTMLElement {
         constructor() {
             super();
 
@@ -80,9 +80,9 @@
         }
     }
     const _PROPERTIES_ = new WeakMap();
-    _PROPERTIES_.set(Component, Object.create(null));
-    _PROPERTIES_.get(Component).scripts = new WeakMap();
-    window.Component = Component;
+    _PROPERTIES_.set(Cogizmo, Object.create(null));
+    _PROPERTIES_.get(Cogizmo).scripts = new WeakMap();
+    window.Cogizmo = Cogizmo;
 
     async function getTemplate() {
         let response = await fetch(`${this.path}template.html`);
