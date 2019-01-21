@@ -3,26 +3,30 @@
  * and workaround for IE11.
  */
 (() => {
+    const _PROPERTIES_ = new WeakMap();
     class Cogizmo extends HTMLElement {
         constructor() {
             super();
 
-            // Attach template up as early as possible
+        // Attach HTML Template as soon as possible
             const root = this.attachShadow({ mode: 'open' });
             const instance = this.constructor.template.content.cloneNode(true);
             root.appendChild(instance);
         }
 
         connectedCallback() {
+        // Feature Check
             if ('function' === typeof super.connectedCallback)
                 super.connectedCallback();
         }
 
         static get observedAttributes() {
+        // Future proof inheritance
             return [];
         }
 
         attributeChangedCallback(name, old, value) {
+        // Feature Check and follow convention
             if ('function' === typeof super.attributeChangedCallback)
                 super.attributeChangedCallback(name, old, value);
 
@@ -32,10 +36,15 @@
         }
 
         disconnectedCallback() {
+        // Feature Check and follow convention
             if ('function' === typeof super.disconnectedCallback)
                 super.disconnectedCallback();
         }
 
+        /**
+         * Tells Cogizmo SuperClass to collect resources and register the
+         * Custom Element with the browser.
+         */
         static async manage() {
             if (!!!_PROPERTIES_.get(this))
                 _PROPERTIES_.set(this, Object.create(null))
@@ -47,16 +56,26 @@
 
         }
 
+        /**
+         * Retrieves a safe reference to the <script> element that loaded
+         * the Custom Element.
+         */
         static get script() {
             return _PROPERTIES_.get(this).script;
         }
 
+        /**
+         * Root URL of the Custom Element. May be used to load external assets
+         * and dependencies.
+         */
         static get path() {
             let url = _PROPERTIES_.get(this).path;
             if (!!!url) {
+            // Reverse-Engineer the path from the <script> element.
                 let a = document.createElement('a'),
                     href = _PROPERTIES_.get(this).script.src + '/../';
                 a.href = href;
+            // Store path locally to avoid external tampering
                 url = _PROPERTIES_.get(this).path = a.href;
 
                 /** @todo Insecure. Used for electron compatibility.
@@ -73,13 +92,15 @@
             return url;
         }
 
+        /**
+         * Returns the imported <template> used by the Custom Element.
+         */
         static get template() {
             if (!!!_PROPERTIES_.get(this).template)
                 _PROPERTIES_.get(this).template = getTemplate.call(this);
             return _PROPERTIES_.get(this).template
         }
     }
-    const _PROPERTIES_ = new WeakMap();
     _PROPERTIES_.set(Cogizmo, Object.create(null));
     _PROPERTIES_.get(Cogizmo).scripts = new WeakMap();
     window.Cogizmo = Cogizmo;
@@ -89,7 +110,6 @@
         let txt = await response.text();
 
         let html =  new DOMParser().parseFromString(txt, 'text/html');
-        console.log('Imported HTML: ', html);
         let scripts = html.querySelectorAll('head > script');
         Array.prototype.forEach.call(scripts, (script) => {
             script.src = `${this.path}${script.getAttribute('src')}`
