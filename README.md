@@ -22,9 +22,18 @@ Cogizmo is a convenience SuperClass for vanilla `<custom-elements>` (Web Compone
 ### Installation
 Installation is very simple. Just place the required files in a web accessible directory.
 
-1. Place Cogizmo.js in a web accessible directory.
-2. Add `<script src="path/to/Cogizmo.js"></script>` to document `<head>`
-    a. If using webcomponents polyfill, Cogizmo.js must come after the polyfill.
+1. Install Cogizmo to a web accessible directory.
+2. Add Cogizmo to your document's `<head>` element.
+
+    1. If you are using the module form (preferred), use:
+        ```
+        <script src="path/to/Cogizmo.mjs" type="module"></script>
+        ```
+    2. If you are using the non-module form, use:
+        ```
+        <script src="path/to/Cogizmo.js"></script>
+        ```
+3. If using webcomponents polyfill, Cogizmo script must come after the polyfill.
 
 ### For Compatibility
 Some browsers do not have the complete WebComponents spec implemented. As a result, some browsers may require the webcomponents polyfills. Webcomponents polyfill is a smart polyfill that only includes features that are not yet implemented.
@@ -80,3 +89,29 @@ Unforunately, the web component spec does not allow for multiple instances of th
 
 ### Custom Element Registration
 Automatically calls `customElements.define()` for your `<custom-element>` utilizing the `MyComponent.is` property.
+
+## Web Component Compatibility
+
+Cogizmo can be loaded as a module or non-module with ease. Module form is the preferred method. However, some browsers have not fully implemented ES Modules. Additionally, many custom elements may be written without the ability to digest modules. As a result, Cogizmo has a number of loading options to allow the greatest compatibility, forward and backward.
+
+### Browser Fallback Support
+
+If you must support several browsing environments, it is typically better to add both the module and non-module form to your document.
+
+```
+<script src="path/to/Cogizmo.mjs" type="module"></script>
+<script src="path/to/Cogizmo.js" nomodule></script>
+```
+
+This allows module enabled browsers to ignore the non-module, while out of date browsers will automatically ignore the module.
+
+### Supporting Non-module Custom Elements with Cogizmo Module
+
+Even if very few or none of your custom elements are ES Modules, you can still use Cogizmo as a module. When loaded, Cogizmo looks for the `use-global` attribute on its script tag. This method does not conflict with fallback support.
+
+```
+<script src="path/to/Cogizmo.mjs" type="module" use-global></script>
+<!-- Can still access Cogizmo from window/global object. -->
+<script src="path/to/MyComponent.js"></script>
+```
+
