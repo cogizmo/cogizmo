@@ -49,10 +49,15 @@
             if (!!!_PROPERTIES_.get(this))
                 _PROPERTIES_.set(this, Object.create(null))
 
-            _PROPERTIES_.get(this).script = document.currentScript;
+            let script = _PROPERTIES_.get(this).script = document.currentScript;
 
-            let a = await this.template;
-            customElements.define(this.is, this);
+            await this.template;
+
+            let tag = this.is;
+            if (script.hasAttribute('tagname'))
+                tag = script.getAttribute('tagname') || tag;
+
+            customElements.define(tag, this);
 
         }
 
