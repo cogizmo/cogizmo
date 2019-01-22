@@ -33,9 +33,6 @@ Some browsers do not have the complete WebComponents spec implemented. As a resu
 
 ## Features
 
-### Custom Element Registration
-Automatically calls `customElements.define()` for your `<custom-element>` utilizing the `MyComponent.is` property.
-
 ### External Templates
 Using an external template file is as simple as placing a template.html file in your web component's root path. When `MyComponent.manage()` is called, it will automatically load the template and attach it to your class for attachment at construction time. *You did remember to call `super()`, didn't you?*
 
@@ -57,3 +54,29 @@ External Stylesheets may be used by placing a `<link>` in your `<template>`. `My
 </template>
 ```
 
+### Customizable `<element-name>`
+Unforunately, the web component spec does not allow for multiple instances of the same `ComponentClass` to use the same `<element-name>`. This can be a problem as web components gain wider adoption. Future custom elements may extend, consume or otherwise depend upon earlier elements and version compatibility may become an issue if these code consumers rely on different versions of the same control. Cogizmo allows preemptive renaming of elements by use of a `tagname` custom attribute.
+
+*This requires no changes or conformance to your custom element's code.*
+
+***application.html***
+```
+<html>
+<head>
+    <script src="path/to/webcomponents-loader.js"></script>
+    <script src="path/to/Cogizmo.js"></script>
+
+    <script src="path/to/MyComponent.js" tagname="a-b-c"></script>
+</head>
+<body>
+    <!-- Will render and work correctly. -->
+    <a-b-c></a-b-c>
+
+    <!-- Will no longer work. -->
+    <my-component></my-component>
+</body>
+</html>
+```
+
+### Custom Element Registration
+Automatically calls `customElements.define()` for your `<custom-element>` utilizing the `MyComponent.is` property.
