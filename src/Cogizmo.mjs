@@ -1,16 +1,16 @@
-// Determine if the consumer wants to attach Cogizmo to the window/global. This
-// only works from a `<script type="module">` tag with a src attribute.
-let pollute = (() => {
+// Determine if the module was loaded with a <script src=""> tag.
+const isScript = new Promise(function findScript(y, n) {
     let scr = null;
     let url = import.meta.url;
     document.querySelectorAll('script[type="module"]').forEach(el => {
         let anchor = document.createElement('a');
         anchor.setAttribute('href', el.src);
         if (anchor.href === url)
-            scr = el;
+            y(el)
     });
-    return scr.hasAttribute('use-global');
-}) ();
+    if (!!!scr)
+        n('Could not find script tag');
+});
 
 const _PROPERTIES_ = new WeakMap();
 export default class Cogizmo extends HTMLElement {
@@ -116,11 +116,30 @@ export default class Cogizmo extends HTMLElement {
         return _PROPERTIES_.get(this).template
     }
 }
-!!pollute && (global.Cogizmo = Cogizmo);
-
 
 _PROPERTIES_.set(Cogizmo, Object.create(null));
+isScript.then(script => {
+        _PROPERTIES_.get(Cogizmo).script = script;
+    })
+    .catch(reason => {
+        _PROPERTIES_.get(Cogizmo).script = null;
+    })
 _PROPERTIES_.get(Cogizmo).scripts = new WeakMap();
+
+isScript.then(setGlobal);
+isScript.then(script => {
+    return script.dispatchEvent(new CustomEvent('cogizmo-ready', {
+        cancelable: false,
+        bubbles: true,
+        detail: Cogizmo
+    }));
+})
+
+// Determine if the consumer wants to attach Cogizmo to the window/global.
+async function setGlobal(script) {
+    !!script.hasAttribute('use-global') && (global.Cogizmo = Cogizmo);
+    return (!!(global.Cogizmo));
+}
 
 async function getTemplate() {
     let response = await fetch(`${this.path}template.html`);
