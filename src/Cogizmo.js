@@ -58,7 +58,6 @@
                 tag = script.getAttribute('tagname') || tag;
 
             customElements.define(tag, this);
-
         }
 
         /**
@@ -107,8 +106,15 @@
         }
     }
     _PROPERTIES_.set(Cogizmo, Object.create(null));
+    _PROPERTIES_.get(Cogizmo).script = document.currentScript;
     _PROPERTIES_.get(Cogizmo).scripts = new WeakMap();
     window.Cogizmo = Cogizmo;
+
+    Cogizmo.script.dispatchEvent(new CustomEvent('cogizmo-ready', {
+        bubbles: true,
+        cancelable: false,
+        detail: Cogizmo
+    }));
 
     async function getTemplate() {
         let response = await fetch(`${this.path}template.html`);
