@@ -37,6 +37,8 @@
     "/src/Cogizmo.js"
   ],
   "devDependencies": {
-    "cpy-cli": "^2.0.0"
+    "cpy-cli": "^2.0.0",
+    "mocha": "^5.2.0",
+    "showroom": "^0.9.3"
   }
 }
