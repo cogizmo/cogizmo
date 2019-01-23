@@ -4,22 +4,39 @@
   "description": "Convenience SuperClass for Custom Elements",
   "main": "src/cogizmo.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build:copy && npm run build:docs",
+    "build:copy": "cpy \"./src/*.*\" \"./dist/\"",
+    "build:docs": "cpy \"./*.md\" \"./dist/\"",
+    "build:license": "cpy \"./LICENSE\" \"./dist/\"",
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cogizmo/cogizmo.git"
   },
   "keywords": [
-    "web",
-    "component",
-    "custom",
-    "element"
+    "webcomponents",
+    "web-components",
+    "customelements",
+    "custom-elements",
+    "vanilla",
+    "javascript",
+    "js",
+    "vanilla-js"
   ],
-  "author": "Donald Atkinson",
+  "author": "Donald Atkinson <fuzzicallogic@outlook.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cogizmo/cogizmo/issues"
   },
-  "homepage": "https://github.com/cogizmo/cogizmo#readme"
+  "homepage": "https://github.com/cogizmo/cogizmo#README.md",
+  "files": [
+    "/LICENSE",
+    "/README.md",
+    "/src/Cogizmo.js",
+    "/src/Cogizmo.js"
+  ],
+  "devDependencies": {
+    "cpy-cli": "^2.0.0"
+  }
 }
