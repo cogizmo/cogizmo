@@ -8,7 +8,7 @@
     "build": "npm run build:copy && npm run build:docs",
     "build:copy": "cpy \"./src/*.*\" \"./dist/\"",
     "build:docs": "cpy \"./*.md\" \"./dist/\"",
-    "build:license": "cpy \"./LICENSE\" \"./dist/\"",
+    "build:license": "cpy \"./LICENSE\" \"./dist/\""
   },
   "repository": {
     "type": "git",
