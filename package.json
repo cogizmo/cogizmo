@@ -40,5 +40,8 @@
     "cpy-cli": "^2.0.0",
     "mocha": "^5.2.0",
     "showroom": "^0.9.3"
+  },
+  "publishConfig": {
+      "access": "public"
   }
 }
