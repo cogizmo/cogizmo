@@ -135,6 +135,16 @@ isScript.then(script => {
     }));
 })
 
+isScript.then(script => {
+    Object.defineProperty(script, 'ready', {
+        writable: false,
+        configurable: false,
+        value: isScript.then(script => {
+            return Cogizmo;
+        })
+    })
+})
+
 // Determine if the consumer wants to attach Cogizmo to the window/global.
 async function setGlobal(script) {
     !!script.hasAttribute('use-global') && (global.Cogizmo = Cogizmo);
