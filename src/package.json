@@ -2,17 +2,11 @@
   "name": "@cogizmo/cogizmo",
   "version": "0.5.0",
   "description": "Convenience SuperClass for Custom Elements",
-  "main": "src/cogizmo.mjs",
+  "main": "cogizmo.mjs",
   "scripts": {
     "test": "npm run test:chrome && npm run test:firefox",
     "test:chrome": "nightwatch --env chrome ./dist/test/nonmodule.js",
     "test:firefox": "nightwatch --env firefox ./dist/test/nonmodule.js",
-    "build": "npm run build:clean && npm run test",
-    "build:clean": "node_modules/.bin/rimraf ./dist && npm run build:copy",
-    "build:copy": "cpy \"./src/**/*?(.*)\" \"./dist\" && npm run build:copy2",
-    "build:copy2": "cpy \"./+(test|samples)/**/*?(.*)\" \"./dist\" --parents && npm run build:docs",
-    "build:docs": "cpy \"./!(README).md\" \"./dist/doc\" && npm run build:license",
-    "build:license": "cpy \"+(README|LICENSE)?(.*)\" \"./dist/\""
   },
   "repository": {
     "type": "git",
