@@ -4,6 +4,7 @@
  */
 (() => {
     const _PROPERTIES_ = new WeakMap();
+    const _TEMPLATE_ = new DOMParser().parseFromString('<template><slot></slot></template>', 'text/html').querySelector('template');
     class Cogizmo extends HTMLElement {
         constructor() {
             super();
@@ -105,9 +106,14 @@
             return _PROPERTIES_.get(this).template
         }
     }
+    Object.defineProperties(Cogizmo, {
+        'manage': { writable: false }
+    });
+
     _PROPERTIES_.set(Cogizmo, Object.create(null));
     _PROPERTIES_.get(Cogizmo).script = document.currentScript;
     _PROPERTIES_.get(Cogizmo).scripts = new WeakMap();
+    _PROPERTIES_.get(Cogizmo).template = _TEMPLATE_;
     window.Cogizmo = Cogizmo;
 
     Cogizmo.script.dispatchEvent(new CustomEvent('cogizmo-ready', {
@@ -137,4 +143,7 @@
         return tpl;
     }
 
+    Object.defineProperties(Cogizmo, {
+        'manage': { writable: false }
+    });
 }) ();

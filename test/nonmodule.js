@@ -245,6 +245,19 @@ describe('Cogizmo (script):', function() {
         });
     });
 
+    it('.template is an HTMLTemplateElement', client => {
+        client.executeAsync(`${sDone}
+            document.addEventListener('cogizmo-ready', function() {
+                done(Cogizmo.template instanceof HTMLTemplateElement);
+            });
+            ${sCogizmo}
+        `,
+        [],
+        (result) => {
+            client.assert.ok(result.value).end();
+        });
+    });
+
     it('has a manage method', client => {
         client.executeAsync(`${sDone}
             document.addEventListener('cogizmo-ready', function() {
