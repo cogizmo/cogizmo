@@ -1,7 +1,11 @@
 {
     "src_folder": ["test"],
+    "unit_tests_mode": false,
+    "output_folder": "./log",
+
     "webdriver": {
-        "start_process": true
+        "start_process": true,
+        "log_path": "./log"
     },
 
     "test_runner" : {
@@ -13,7 +17,7 @@
     },
     "test_settings": {
         "default": {
-            "launch_url": "file:///C:/Projects/Components/cogizmo/dist/test/nonmodule.html"
+            "launch_url": "file:///C:/Projects/Components/cogizmo/build/test/test-nonmodule/nonmodule.html"
         },
 
         "chrome": {

@@ -13,6 +13,7 @@ const isScript = new Promise(function findScript(y, n) {
 });
 
 const _PROPERTIES_ = new WeakMap();
+const _TEMPLATE_ = new DOMParser().parseFromString('<template><slot></slot></template>', 'text/html').querySelector('template');
 export default class Cogizmo extends HTMLElement {
     constructor() {
         super();
@@ -116,24 +117,38 @@ export default class Cogizmo extends HTMLElement {
         return _PROPERTIES_.get(this).template
     }
 }
+Object.defineProperties(Cogizmo, {
+    'manage': { writable: false }
+});
+
 
 _PROPERTIES_.set(Cogizmo, Object.create(null));
+_PROPERTIES_.get(Cogizmo).template = _TEMPLATE_;
+_PROPERTIES_.get(Cogizmo).path = (() => {
+    let a = document.createElement('a');
+    a.href = import.meta.url + '/../';
+    return a.href;
+})();
 isScript.then(script => {
-        _PROPERTIES_.get(Cogizmo).script = script;
-    })
-    .catch(reason => {
-        _PROPERTIES_.get(Cogizmo).script = null;
-    })
+    _PROPERTIES_.get(Cogizmo).script = script;
+})
+.catch(reason => {
+    _PROPERTIES_.get(Cogizmo).script = document.createElement('script')
+    _PROPERTIES_.get(Cogizmo).script.src = import.meta.url;
+    _PROPERTIES_.get(Cogizmo).script.setAttribute('type', 'module');
+    document.head.appendChild(_PROPERTIES_.get(Cogizmo).script)
+})
+
 _PROPERTIES_.get(Cogizmo).scripts = new WeakMap();
 
-isScript.then(setGlobal);
+isScript.then(setGlobal).catch(() => {});
 isScript.then(script => {
     return script.dispatchEvent(new CustomEvent('cogizmo-ready', {
         cancelable: false,
         bubbles: true,
         detail: Cogizmo
     }));
-})
+}).catch(() => {})
 
 isScript.then(script => {
     Object.defineProperty(script, 'ready', {
@@ -143,7 +158,7 @@ isScript.then(script => {
             return Cogizmo;
         })
     })
-})
+}).catch(() => {})
 
 // Determine if the consumer wants to attach Cogizmo to the window/global.
 async function setGlobal(script) {
@@ -171,3 +186,4 @@ async function getTemplate() {
         link.href = `${this.path}${link.getAttribute('href')}`;
     return tpl;
 }
+
