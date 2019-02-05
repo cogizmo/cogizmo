@@ -1,6 +1,6 @@
 {
   "name": "@cogizmo/cogizmo",
-  "version": "0.6.2-alpha",
+  "version": "0.6.2",
   "description": "Convenience SuperClass for Custom Elements",
   "main": "src/cogizmo.mjs",
   "scripts": {
