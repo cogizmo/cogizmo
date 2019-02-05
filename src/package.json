@@ -1,13 +1,16 @@
 {
   "name": "@cogizmo/cogizmo",
-  "version": "0.6.2-alpha",
+  "version": "0.6.2",
   "description": "Convenience SuperClass for Custom Elements",
   "main": "cogizmo.mjs",
   "scripts": {
     "pretest": "node_modules/.bin/rimraf ./log",
-    "test": "npm run test:chrome && npm run test:firefox",
+    "test": "npm run test:chrome",
     "test:chrome": "nightwatch --config ./test/nightwatch.json --env chrome ./test/test-module/unit.js",
-    "test:firefox": "nightwatch --config ./test/nightwatch.json --env firefox ./test/test-module/unit.js"
+    "test:firefox": "nightwatch --config ./test/nightwatch.json --env firefox ./test/test-module/unit.js",
+    "test:all": "npm run test:chrome && npm run test:firefox",
+    "postversion": "npm publish",
+    "postpublish": "cpy \"./package.json\" \"../src\" && cd .. && npm run git:pkg && npm run git:push"
   },
   "repository": {
     "type": "git",
@@ -27,10 +30,10 @@
   },
   "homepage": "https://github.com/cogizmo/cogizmo#README.md",
   "files": [
-    "/Cogizmo?(.*)",
+    "/*.+(html|js|css)",
     "/LICENSE?(.*)",
     "/README?(.*)",
-    "+(samples|templates|test)/**/*?(.*)"
+    "+(example|doc|test)/**/*?(.*)"
   ],
   "devDependencies": {
     "chromedriver": "^2.45.0",
