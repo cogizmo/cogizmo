@@ -33,7 +33,7 @@
 
             /** @todo Convert attribute names to Camel Case */
             if ('function' === typeof this[`on${name.charAt(0).toUpperCase()}${name.slice(1)}Changed`])
-                this[`on${name.charAt(0).toUpperCase()}${name.slice(1)}Changed`](old, value);
+                this[`on${name.charAt(0).toUpperCase()}${name.slice(1)}Changed`](value, old);
         }
 
         disconnectedCallback() {
